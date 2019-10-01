@@ -1,7 +1,10 @@
 'use strict'
-const mongoose=require('mongoose');
-var usuarioSchema = require('../schemas/schemaUsuario');
+const mongoose = require('mongoose');
+var userSchema = require('../schemas/usuario.schema');
 
-var modeloUsuario= mongoose.model('usuario',usuarioSchema);
 
-module.exports= modeloUsuario;
+userSchema.set('toJSON', {
+  getters: true,
+  virtuals: true
+});
+module.exports = mongoose.model('usuario', userSchema);

@@ -1,59 +1,66 @@
 var nodemailer = require('nodemailer');
-
-var auth= {
+///////////////////////////////////////////////////API refresh_token
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
+const oauth2Client = new OAuth2('1000017914306-1c7v13dfs4fbkr4ra5adh4dif47lprol.apps.googleusercontent.com', 'GQEcDmFZP9OjIPJdnJUlJF1i', "https://developers.google.com/oauthplayground");
+oauth2Client.setCredentials({
+  refresh_token: "1/xe_qbbrajYRtSA2mcsVKb83UUh81nlujZrtKw3gAP-Y"
+});
+var accessToken = oauth2Client.getAccessToken();
+console.log(accessToken);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+var auth = {
   type: 'OAuth2',
   user: 'jballejo@gmail.com',
-  clientId: '175240423223-0pq5i32u2kn158es3vvv0fkca82rc1k9.apps.googleusercontent.com',
-  clientSecret: 'kWdtaSfVMlvkix24nq0YsUnA',
-  refreshToken: '1/iOM2ZRnOvnu3QsCS7mUP3zf19YTpmy4_SYMw9riAmfU',
-  accessToken: 'ya29.Il-UB1hYe7gremikvnu4HT_af7kVA8dlaewnyDOHjXLvPBHTHXfQrFc0P6Uh-qk--CsA2cPJyg-x_rIkbHRiXm1q935Uejb0zrrhLlwAv7bjyrFX8aVT5YiC9agh9vd3yA',
-  expires: 3500,
+  clientId: '1000017914306-1c7v13dfs4fbkr4ra5adh4dif47lprol.apps.googleusercontent.com',
+  clientSecret: 'GQEcDmFZP9OjIPJdnJUlJF1i',
+  refreshToken: '1/xe_qbbrajYRtSA2mcsVKb83UUh81nlujZrtKw3gAP-Y',
+  accessToken:'ya29.Il-UB3SejAB3CgQSBXU3eoRu6YRFRvAAp_b4nE3cd0nHUJwNvtDZH1FygIPTCmmXgzAjfVj0gDPmiZNfFYiQ22wAeHHaDzroPXH4F6PFFGrXNDg3D-seNddquNKrtedZNg',
+//  expires: 3500,
 };
+
 let transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
+ host: 'smtp.gmail.com',
   port: 465,
   secure: true,
-  auth
+  auth,
 });
+
 transporter.on('token', token => {
   console.log('A new access token was generated');
   console.log('User: %s', token.user);
   console.log('Access Token: %s', token.accessToken);
   console.log('Expires: %s', new Date(token.expires));
 });
+
 exports.enviarMail = (mailOptions) => {
   transporter.sendMail(mailOptions, (err, res) => {
     if(err) {
       return console.log(err);
     } else {
-      return (JSON.stringify(res));
+      return console.log(res);// (JSON.stringify(res));
     }
   });
 };
-exports.getMailOptions = () => mailOptions = {
-  'from': 'sender@example.com',
-  'to': 'recipient@example.com',
-  'subject': 'Message',
-  'text': 'I hope this message gets through!'
+exports.getMailOptions = () => {mailOptions = {
+  from: 'sender@example.com',
+  to: 'recipient@example.com',
+  subject: 'Message',
+  text: 'I hope this message gets through!'
+}};
+
+/*
+var mailOP = {
+  from: "jballejo@gmail.com",
+  to: "jball.ejo@gmail.com",
+  subject: "Reset Password",
+  text: "Su contraseña autogenerada: ",
 };
-transporter.set('oauth2_provision_cb', (user, renew, callback) => {
-    let accessToken = userTokens[user];
-    if(!accessToken){
-        return callback(new Error('Unknown user'));
-    }else{
-        return callback(null, accessToken);
-    }
-});
-var mailOP={};
-//mailOP.from = "jballejo@gmail.com";
-mailOP.to = "jballejo@gmail.com";
-mailOP.subject = "Reset Password";
-mailOP.text = "Su contraseña autogenerada: ";
-console.log(mailOP);
+//console.log(mailOP);
 transporter.sendMail(mailOP, (err, res) => {
   if(err) {
     return console.log(err);
   } else {
-    return (JSON.stringify(res));
+    return  console.log(res);
   }
-});
+});*/

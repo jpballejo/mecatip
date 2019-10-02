@@ -16,6 +16,7 @@
     "express": "^4.16.4",
     "express-session": "^1.16.2",
     "express-sessions": "^1.0.6",
+    "googleapis": "^43.0.0",
     "mongoose": "^5.7.0",
     "mongoose-auto-increment": "^5.0.1",
     "mongoose-sequence": "^5.2.1",

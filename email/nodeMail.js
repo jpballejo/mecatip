@@ -11,11 +11,11 @@ console.log(accessToken);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 var auth = {
   type: 'OAuth2',
-  user: 'jballejo@gmail.com',
-  clientId: '1000017914306-1c7v13dfs4fbkr4ra5adh4dif47lprol.apps.googleusercontent.com',
-  clientSecret: 'GQEcDmFZP9OjIPJdnJUlJF1i',
-  refreshToken: '1/xe_qbbrajYRtSA2mcsVKb83UUh81nlujZrtKw3gAP-Y',
-  accessToken:'ya29.Il-UB3SejAB3CgQSBXU3eoRu6YRFRvAAp_b4nE3cd0nHUJwNvtDZH1FygIPTCmmXgzAjfVj0gDPmiZNfFYiQ22wAeHHaDzroPXH4F6PFFGrXNDg3D-seNddquNKrtedZNg',
+  user: 'mecanografiastip@gmail.com',
+  clientId: '139447647073-arg5pa61uktmphq8fihn7o2es7nbq8he.apps.googleusercontent.com',
+  clientSecret: 'iSsvkp2LQOldWCmtvnNMVltn',
+  refreshToken: '1//04WpcDqElxT06CgYIARAAGAQSNwF-L9IrdNw5ovKIjq1ny6MQCtqIIXXNJKaEECmDtt5D-yUGtJu1N0SWylswk1pYVJmJFKGSg84',
+  accessToken:'ya29.Il-UBzzLd0JWwmDnhJanXK5yBmeQsvEwRSmc1RAd2sb6FySl58esAfGDOdLEtZ761SD9DQdRW25Jg1YMdb7AdGX2Pqg8oyP2rSTTfLhJJUY_XFXOsSvqqyrYQQMMUJdBag',
 //  expires: 3500,
 };
 

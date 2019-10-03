@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 var palabraSchema = new Schema({
   id: Schema.Types.ObjectId,
   palabra_frase: String,
-  nivel: Integer,
+  nivel: Number,
   significado:String,
   created: {
     type: Date,

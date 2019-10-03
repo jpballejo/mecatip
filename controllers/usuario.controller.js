@@ -2,8 +2,10 @@ var Usuario = require('../models/usuario.modelo'); //importo el modelo
 var utilidades = require('../utilidades/util');
 /*
 Controlador: Usuario
-Create: by Jp.
+created by: by Jp.
  */
+
+
 /////////////////////////////////////listaUsuarios-GET/////////////////////////////////////////////////////////////////////////////////////
 /**
  * [listaUsuario Lista todos los usuarios del sistema]

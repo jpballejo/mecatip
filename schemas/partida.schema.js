@@ -1,12 +1,18 @@
 'use-strict'
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
 var partidaSchema = new Schema({
-  id:  Schema.Types.ObjectId,
-  tipoPartida:  Schema.Types.ObjectId,
-  ganador:  Schema.Types.ObjectId,
-  contrincante:  Schema.Types.ObjectId,
+  id: Schema.Types.ObjectId,
+  idPartida: {
+    type: String,
+    require: true,
+    index:true
+  },
+  tipoPartida: {
+    type: String,
+    enum: ['VS', 'INDIVIDUAL'],
+    default: 'INDIVIDUAL'
+  },
   created: {
     type: Date,
     default: Date.now
@@ -19,13 +25,10 @@ var partidaSchema = new Schema({
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////***************FUNCIONES************//////////////////////////////////////////////////////////////////
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////****DELETE*****///////////////////////////////////////////////////////////////////
-
 partidaSchema.statics.Delete = function(next) {
-    console.log('DELETE: partida');
+  console.log('DELETE: partida');
   var _this = this;
   _this.isOcultar = true;
   next(_this.isOcultar);

@@ -2,9 +2,9 @@ var nodemailer = require('nodemailer');
 ///////////////////////////////////////////////////API refresh_token
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
-const oauth2Client = new OAuth2('1000017914306-1c7v13dfs4fbkr4ra5adh4dif47lprol.apps.googleusercontent.com', 'GQEcDmFZP9OjIPJdnJUlJF1i', "https://developers.google.com/oauthplayground");
+const oauth2Client = new OAuth2('139447647073-arg5pa61uktmphq8fihn7o2es7nbq8he.apps.googleusercontent.com', 'iSsvkp2LQOldWCmtvnNMVltn', "https://developers.google.com/oauthplayground");
 oauth2Client.setCredentials({
-  refresh_token: "1/xe_qbbrajYRtSA2mcsVKb83UUh81nlujZrtKw3gAP-Y"
+  refresh_token: "1//04WpcDqElxT06CgYIARAAGAQSNwF-L9IrdNw5ovKIjq1ny6MQCtqIIXXNJKaEECmDtt5D-yUGtJu1N0SWylswk1pYVJmJFKGSg84"
 });
 var accessToken = oauth2Client.getAccessToken();
 console.log(accessToken);
@@ -43,10 +43,10 @@ exports.enviarMail = (mailOptions) => {
   });
 };
 exports.getMailOptions = () => {mailOptions = {
-  from: 'sender@example.com',
-  to: 'recipient@example.com',
+  from: 'mecanografiastip@gmail.com',
+  to: '',
   subject: 'Message',
-  text: 'I hope this message gets through!'
+  text: ''
 }};
 
 /*

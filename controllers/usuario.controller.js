@@ -4,8 +4,6 @@ var utilidades = require('../utilidades/util');
 Controlador: Usuario
 created by: by Jp.
  */
-
-
 /////////////////////////////////////listaUsuarios-GET/////////////////////////////////////////////////////////////////////////////////////
 /**
  * [listaUsuario Lista todos los usuarios del sistema]
@@ -59,8 +57,9 @@ exports.getUsuarios = (req, res, next) => {
  * @return {[type]}        [description]
  */
 exports.getUsuario = (req, res, next) => {
+  console.log('request ',req.params.usuario);
   var query = Usuario.findOne({
-    username: req.user.username
+    username: req.params.usuario
   });
   query.where({
     isOcultar: false
@@ -71,8 +70,7 @@ exports.getUsuario = (req, res, next) => {
     if(err) {
       return next(err);
     } else {
-      res.status(200);
-      res.json(user);
+      res.status(200).json(user);
     }
   });
 };
@@ -87,12 +85,11 @@ exports.getUsuario = (req, res, next) => {
  */
 exports.updateUsuario = (req, res, next) => {
   //req.newUser tiene que ser un json {'clave':'valor'}
-  Usuario.findByIdAndUpdate(req.user.id, req.body, (err, usuario) => {
+  Usuario.findOnedAndUpdate({username:req.body.usuarioNuevo.username}, req.body.usuarioNuevo, (err, usuario) => {
     if(err) {
       return next(err);
     } else {
-      res.status(200);
-      res.json(user);
+      res.status(200).json(user);
     }
   });
 };
@@ -106,14 +103,14 @@ exports.updateUsuario = (req, res, next) => {
  * @return {[type]}        [description]
  */
 exports.eliminarUsuario = (req, res, next) => {
-  console.log("username", req.user.username);
+  console.log("username", req.body.username);
   Usuario.where({
-    username: req.user.username
+    username: req.body.username
   }).update({
     isOcultar: true
   }).exec(() => {
-    req.logout();
-    res.status(200);
+    //  req.logout();
+    //res.status(200);
     return res.send('OK Usuario Eliminado');
   });
 };
@@ -127,24 +124,27 @@ exports.eliminarUsuario = (req, res, next) => {
  * @return {[type]}        [description]
  */
 exports.removeUsuarioById = (req, res, next) => {
-  Usuario.findByIdAndRemove(req.user.id, function(user, err) {
+  Usuario.findByIdAndRemove(req.body.idUser, function(user, err) {
     if(err) {
       return next(err);
     } else {
-      res.status(200);
-      res.send('Usuario removido')
-      res.json(user);
+      res.status(200).json(user);
+      //res.send('Usuario removido')
+      //    res.
     }
   })
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////cambiarPassword-PUT/////////////////////////////////////////////////////////////////////////////////////
 exports.cambiarPassword = (req, res, next) => {
+
+  console.log('body ',req.user.username);
+
   var query = {
     username: req.user.username
   };
   Usuario.where(query).update({
-    password: util.hashPassword(req.newPassword)
+    password: utilidades.hashPassword(req.body.newPassword)
   }).exec(() => res.send('OK'));
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -153,19 +153,19 @@ exports.resetPasswd = (req, res, next) => {
   Usuario.findOne({
     email: req.body.email
   }, (err, user) => {
-    console.log(user, req.body.email);
+    console.log(user, req.email);
     var cadena = utilidades.generarCadena();
     user.password = cadena;
     user.save((err, user) => {
       if(err) next(err);
       if(user) {
         res.send('Password reset ok.');
-        var mailOP = req.getMailOptions();
-        mailOP.from='jballejo@gmail.com';
-        mailOP.to=req.body.email;
-        mailOP.subject='Reset Password';
-        mailOP.text= 'Su contraseña autogenerada: ',cadena;
-        req.enviarMail(mailOP);
+        var mailOP = utilidades.getMailOptions();
+        mailOP.from = 'jballejo@gmail.com';
+        mailOP.to = req.email;
+        mailOP.subject = 'Reset Password';
+        mailOP.text = 'Su contraseña autogenerada: ', cadena;
+        utilidades.enviarMail(mailOP);
         //utilidades.resetPswd(user, cadena);
       }
     })

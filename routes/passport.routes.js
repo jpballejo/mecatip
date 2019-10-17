@@ -1,48 +1,22 @@
 var express = require('express');
 var Usuario = require('../models/usuario.modelo');
 var router = express.Router();
-/////////////AUTHENTICATE------------------------------------------------------------------------------------------------------------------------------
-var isAuthenticated = function(req, res, next) {
-  if(req.isAuthenticated()) return next();
-  res.redirect('/');
-}
+var jwt = require('jsonwebtoken');
+var jwtSecret = require('../passport/jwtConfig');
+var jwt = require('jsonwebtoken');
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module.exports = function(passport) {
-  /////////////LOGIN-GET-----------------------------------------------------------------------------------------------------------------------------
-  /* GET login page. */
-  router.get('/login', function(req, res) {
-    if(!req.usuario) {
-      res.render('sigin', {
-        titulo: 'Formula Identificacion',
-        mensajes: req.flash('error') || req.flash('info')
-      });
-    } else {
-      return res.redirect('/index');
-    }
-  });
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /////////////LOGIN-POST-----------------------------------------------------------------------------------------------------------------------------
-  /* Handle Login POST */
+
   router.post('/login', passport.authenticate('local', {
-    successFlash: 'Welcome!'
+    session: false
   }), function(req, res) {
-    // If this function gets called, authentication was successful.
-    // `req.user` contains the authenticated user.
-    res.status(200);
-    return res.send(req.user);
-  });
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /////////////SIGNUP-GET-----------------------------------------------------------------------------------------------------------------------------
-  /* GET Registration Page */
-  router.get('/signup', function(req, res, next) {
-    if(!req.usuario) {
-      res.render('signup', {
-        titulo: 'Formulario Registro',
-        mensajes: req.flash('error') || req.flash('info')
-      });
-    } else {
-      res.redirect('/index');
+    userT = {
+            username: req.user.username
     }
+    const token = jwt.sign(userT, jwtSecret.secret);
+    userT.token = token;
+    res.json(userT);
   });
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /////////////SIGNUP-POST-----------------------------------------------------------------------------------------------------------------------------
@@ -56,30 +30,33 @@ module.exports = function(passport) {
       usuario.save(function(err, user) {
         if(err) {
           console.log(err);
-          req.flash('error', mensaje);
           res.send(err);
         }
         if(user) {
-          res.status(200);
-          return res.send("OK");
+          req.login(user, () => {
+            userT = {
+
+              username: user.username
+
+            };
+            const nToken = jwt.sign(userT, jwtSecret.secret);
+            userT.token = nToken;
+          });
+          return res.send(userT);
         }
-        /*  req.login(usuario, function(err) {
-            if(err) return next(err);
-            //res.status(200);
-            return res.send('Usuario Autenticado.')
-          });*/
+
       });
     } else {
-      //res.status(404);
+
       return res.send('Error usuario ya logeado.');
     }
   });
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /////////////SIGNOUT------------------------------------------------------------------------------------------------------------------------------
-  /* Handle Logout */
+
   router.get('/logout', function(req, res, next) {
     req.logout();
-    res.status(200);
+
     return res.send('LOGOUT');
   });
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

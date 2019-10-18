@@ -1,5 +1,6 @@
 var utilidades = require('../utilidades/util');
 var Palabra = require('../models/palabras.modelo');
+//cosas
 //------------------------------------------------------------------------------//
 /*
 Controlador: Palabras
@@ -19,7 +20,7 @@ exports.altaPalabra = function(req, res, next) {
   nuevaP.save(function(err, palabra) {
     if(err) return next(err);
     if(palabra) {
-    
+
       return res.send("OK");
     }
   });
